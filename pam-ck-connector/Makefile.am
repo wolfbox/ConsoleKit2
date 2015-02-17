@@ -23,7 +23,6 @@ pam_ck_connector_la_LIBADD =  			\
 
 man_MANS = pam_ck_connector.8
 
-if HAVE_LINUXPAM
 noinst_PROGRAMS = 				\
 	test-pam				\
 	$(NULL)
@@ -32,9 +31,14 @@ test_pam_SOURCES = 				\
 	test-pam.c 				\
 	$(NULL)
 
-test_pam_LDADD =				\
-	$(PAM_LIBS)				\
-	-lpam_misc				\
+if HAVE_LINUXPAM
+test_pam_LDADD =		\
+	$(PAM_LIBS)			\
+	-lpam_misc			\
+	$(NULL)
+else
+test_pam_LDADD =		\
+	$(PAM_LIBS)			\
 	$(NULL)
 endif
 

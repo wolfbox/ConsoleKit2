@@ -273,6 +273,10 @@ AM_CONDITIONAL(ENABLE_PAM_MODULE, test "x$enable_pam_module" = "xyes")
 #Check if we can build an optional test program
 AC_CHECK_LIB(pam_misc, misc_conv, have_linuxpam=yes)
 AM_CONDITIONAL(HAVE_LINUXPAM, test "x$have_linuxpam" = "xyes")
+AS_IF([test "x$have_linuxpam" = "xyes"], [
+	AC_DEFINE([HAVE_LINUXPAM], [], [Define if we have Linux-PAM])
+])
+AC_SUBST(HAVE_LINUXPAM)
 
 dnl ------------------------------------------------------------------------------
 dnl udev-acl - apply ACLs for users with local forground sessions

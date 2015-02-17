@@ -29,9 +29,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 
 #include <security/pam_appl.h>
+
+#ifdef HAVE_LINUXPAM
 #include <security/pam_misc.h>
+#define CONV_FUNC misc_conv
+#else
+#include <security/openpam.h>
+#define CONV_FUNC openpam_ttyconv
+#endif
 
 #ifdef HAVE_PATHS_H
 #include <paths.h>
@@ -58,7 +66,7 @@ main (int argc, char *argv[])
         char           *hostname;
         char           *tty_name;
         char           *ttyn;
-        struct pam_conv conv = { misc_conv, NULL };
+        struct pam_conv conv = { CONV_FUNC, NULL };
         int             failcount;
 
         ret = 1;
